@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>标准雷达图</title>
+		<link href="css/common.css" rel="stylesheet"/>
+	</head>
+	<body onresize="divChart.resize();" scroll="no" onselectstart ="return false" onselect="document.selection.empty()" oncopy="document.selection.empty()" onbeforecopy="return false" onmouseup="return false" oncontextmenu="return false">
+		<div id="divChart"></div>
+		<div align="center" style="display:none;">
+			<div>
+				<div>这是私有方法</div>
+				<button onclick="setCenterText('价格')">setCenterText()</button>
+				<button onclick="setSeriesData([{value:335, name:'直接访问'},{value:310, name:'邮件营销'}]);">
+					setSeriesData()
+				</button>
+			</div>
+			<div>
+				<div>这是公共方法</div>
+				<button onclick="setImageSize('800px','800px')">setImageSize()</button>
+				<button onclick="updateTitle('这是新标题', '这是新的副标题');">updateTitle()</button>
+				<button onclick="reloadEcharts()">reloadEcharts()</button>
+				<button onclick="resize()">resize()</button>
+				<button onclick="refresh()">refresh()</button>
+				<button onclick="restore()">restore()</button>
+				<div>
+					<button onclick="showMask(null,0)">showMask(null,0)</button>
+					<button onclick="showMask(null,1)">showMask(null,1)</button>
+					<button onclick="showMask(null,2)">showMask(null,2)</button>
+					<button onclick="showMask(null,3)">showMask(null,3)</button>
+					<button onclick="showMask(null,4)">showMask(null,4)</button>
+					<button onclick="showMask('没有数据',5)">showMask("没有数据",5)</button>
+					<button onclick="hideMask()">hideMask()</button>
+				</div>
+				<button onclick="setBgColor('rgb(255, 86, 86)')">setBgColor()</button>
+				<button onclick="setColors(['rgb(94, 16, 16)', 'rgb(51, 28, 28)', 'rgb(0, 0, 255)']);">setColors()</button>
+			</div>
+		</div>
+	</body>
+	<object type='application/x-qt-plugin' classid='CCustItem' id='CCustItem' style="height:0px;width:0px;display:block;" ></object>
+	<script src="js/jquery-2.2.1.min.js" type="text/javascript"></script>
+	<script src="js/echarts.min.js" type="text/javascript"></script>
+	<script src="js/radar1.js" type="text/javascript"></script>
+	<script src="js/common.js" type="text/javascript"></script>
+</html>

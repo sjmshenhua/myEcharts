@@ -1,0 +1,266 @@
+﻿
+//房源数据json字符串
+var HOUSE_DATA = %1;
+//测试
+/*
+var HOUSE_DATA = {
+	"HOUSE_SUBJECT":"案说法是dds平【休息休息ds否18452655", 
+	"HOUSE_CHARACT":"1的方式的观",
+	"HOUSE_FITMENT":"xxx",
+	"HOUSE_REGION":"1",
+	"HOUSE_DIRECT":"1",
+	"BUILD_NAME":"1",
+	"SECTION_ID":"1",
+	"SECTION_NAME":"1",
+	"HOUSE_AREA":"1",
+	"HOUSE_TOTAL_PRICE":"1",
+	"MAP":["111"]
+};
+*/
+//父站点
+var father_id = %2;
+//测试
+//var father_id = "233";
+main();
+//_log.print(msg);
+
+function main(){
+	
+	var fun_name = "checkData_"+father_id;
+	//检测关键字段是否为空
+	try{
+		var reportMsg = detectionField();
+		if(reportMsg){
+			return reportMsg;
+		}
+		//检测数据信息
+		var reportMsg = eval(fun_name+"( )");
+		return reportMsg;
+	}catch(e){
+		return "缺少关键字段";
+	}
+}
+
+
+function detectionField(){
+	//检测行政区信息
+	//if(!HOUSE_DATA["HOUSE_REGION"]){
+	//	return "行政区不能为空";
+	//}
+	//检测朝向信息
+	//if(!HOUSE_DATA["HOUSE_DIRECT"]){
+	//	return "朝向不能为空";
+	//}
+	//检测装修信息
+	if(!HOUSE_DATA["HOUSE_FITMENT"]){
+		return "装修程度不能为空";
+	}
+	//检测楼盘信息
+	//if(!HOUSE_DATA["BUILD_NAME"]){
+	//	return "楼盘信息不能为空";
+	//}
+	//检测商圈ID
+	//if(!HOUSE_DATA["SECTION_ID"]){
+	//	return "商圈ID不能为空";
+	//}
+	//检测商圈名
+	//if(!HOUSE_DATA["SECTION_NAME"]){
+	//	return "商圈名不能为空";
+	//}
+	//检测房屋面积
+	if(!HOUSE_DATA["HOUSE_AREA"]){
+		return "房屋面积不能为空";
+	}
+	//检测房屋总价
+	if(!HOUSE_DATA["HOUSE_TOTAL_PRICE"]){
+		return "房屋总价不能为空";
+	}
+	return "";
+}
+
+function checkData_100(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 8){
+		return "标题字数不足8个字";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 10){
+		return "描述字数不足10个字";
+	}
+	return "";
+}
+
+function checkData_101(){
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 10){
+		return "描述字数不足10个字";
+	}
+	return "";
+}
+
+
+function checkData_102(){
+ 	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 6){
+		return "标题字数不足6个字";
+	} 
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 10){
+		return "描述字数不足10个字";
+	} 
+	return "";	
+}
+
+function checkData_103(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 10){
+		return "标题字数不足10个字";
+	} 
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 20){
+		return "描述字数不足20个字";
+	} 
+	//检测是否存在房源图片
+	if(HOUSE_DATA["MAP"].length==0){
+		return "没有房源图片";
+	}
+	return "";
+}
+
+
+function checkData_104(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length == 0){
+		return "未填写标题";
+	} 
+	return "";
+}
+
+function checkData_105(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 5){
+		return "标题字数不足5个字";
+	} 
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 20){
+		return "描述字数不足20个字";
+	} 
+	return "";
+}
+
+
+function checkData_106(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 5){
+		return "标题字数不足5个字";
+	} 
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 35){
+		return "描述字数不足35个字";
+	} 
+	return "";
+}
+
+
+function checkData_109(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 8){
+		return "标题字数不足8个字";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 15){
+		return "描述字数不足15个字";
+	} 
+	return "";
+}
+
+
+
+function checkData_152(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 6){
+		return "标题字数不足6个字";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 15){
+		return "描述字数不足15个字";
+	}
+	return "";
+}
+
+function checkData_173(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 2){
+		return "标题字数不足2个字";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length == 0){
+		return "描述不能为空";
+	}
+	return "";
+}
+
+
+function checkData_179(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length == 0){
+		return "标题不能为空";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length == 0){
+		return "描述不能为空";
+	}
+	return "";
+}
+
+
+function checkData_221(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 10){
+		return "标题字数不足10个字";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length < 20){
+		return "描述字数不足20个字";
+	} 
+	return "";
+}
+
+
+function checkData_226(){
+	//检测标题字数
+	if(HOUSE_DATA["HOUSE_SUBJECT"].length < 2){
+		return "标题字数不足2个字";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length > 400 || HOUSE_DATA["HOUSE_CHARACT"].length == 0){
+		return "描述字数限制在0-400之间";
+	} 
+	return "";
+}
+
+
+function checkData_233(){
+	//检测标题是否为空
+	if(!HOUSE_DATA["HOUSE_SUBJECT"]){
+		return "标题不能为空";
+	}
+	//检测是否存在图片（至少上传一张图片）
+	if(HOUSE_DATA["MAP"].length==0){
+		return "请至少上传一张图片";	
+	}
+	return "";
+}
+
+
+function checkData_243(){
+	//检测标题是否为空
+	if(!HOUSE_DATA["HOUSE_SUBJECT"]){
+		return "标题不能为空";
+	}
+	//检测描述字数
+	if(HOUSE_DATA["HOUSE_CHARACT"].length == 0){
+		return "描述不能为空";
+	} 
+	return "";
+}
