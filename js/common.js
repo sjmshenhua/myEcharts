@@ -321,7 +321,7 @@ function resetEcharts(scaleType) {
   }
 
   //折线图的处理
-  if (!!option.xAxis){
+  if (!!option.xAxis && option.title.sublink != 'line4'){
     option.xAxis[0].axisLabel.textStyle.fontSize = 12 * scaleType;  //X轴字体大小调整
     option.yAxis[0].axisLabel.textStyle.fontSize = 12 * scaleType; //X轴字体大小调整
     

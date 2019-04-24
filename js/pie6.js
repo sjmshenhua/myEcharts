@@ -9,15 +9,15 @@ function documentReadFun(){
 
 
 	// 设置圆弧颜色
-  // var colorData = ['#008aff','#31c085','#fea13a','#8876f6', '#E958F1', '#F17558']; //渐变颜色
+  // var colorData = ['red','#31c085','#fea13a','#8876f6', '#E958F1', '#F17558']; //渐变颜色
 	// setColors(colorData);
 	// 设置显示数据
   // var data = [
-  //   {name: "李四", value: 30,total: 30},
-  //   {name: "王五", value: 30,total: 30},
-  //   {name: "赵六", value: 5,total: 30},
-  //   {name: "陈七", value: 30,total: 30},
-  //   {name: "朱八", value: 30,total: 30},
+  //   {name: "李四", value: 0,total: 30},
+  //   {name: "王五", value: 0,total: 30},
+  //   {name: "赵六", value: 1,total: 30},
+  //   {name: "陈七", value: 0,total: 30},
+  //   {name: "朱八", value: 0,total: 30},
   // ]
 	// setSeriesData(data);
 }
@@ -26,13 +26,20 @@ function documentReadFun(){
  * 设置数据集，例：setSeriesData([{value:335, name:'70-90㎡'},{value:310, name:'90-100㎡'}]);
  */
 function setSeriesData(data){
+	// alert("进入"+JSON.stringify(data))
+	if(option.series.length < 1){
+		option.color.unshift('#ffffff','#ffffff','#ffffff')
+		option.color.push('#f3f5f6')
+	}
 	data.unshift({name: "", value: 0,total: 0},{name: "", value: 0,total: 0},{name: "", value: 0,total: 0})
-
+	
 	// 设置显示数据series
 	option.series[0] = {};
 	option.series[0].type = 'bar';
 	option.series[0].coordinateSystem = 'polar';
 	option.series[0].data = data;
+	option.series[0].stack = 'a';
+	
 	option.series[0].barBorderRadius = [20,20,20,20];
 	option.series[0].barWidth =	6;
 	option.series[0].radius =	['20','90%'];
@@ -40,11 +47,58 @@ function setSeriesData(data){
 	option.series[0].itemStyle = {
 		normal: {
 			color: function(params) { 
-				return option.color.length>0?option.color[params.dataIndex]: []
+				var color = option.color.length>0?option.color[params.dataIndex]: []
+				
+				if(params.data.value == 0){
+					color = '#f3f5f6';
+				}
+				
+				return color;
 			},
 			barBorderRadius: 10
 		},
 	};
+	var fillData = [];
+	var surplusNum = 0;
+	for(var i = 0; i < data.length; i++){
+		surplusNum = data[i].total - data[i].value;
+		if(surplusNum > data[i].total){
+			surplusNum = 0;
+		}
+		if(data[i].total == 0){
+			data[i].total = 1;
+			surplusNum = 1;
+		}
+		fillData.push({name: data[i].name,value: surplusNum,total:0})
+	}
+	
+	var seriesData = {
+		type: 'bar',
+		coordinateSystem: 'polar',
+		roseType: 'area',
+		barWidth: '6',
+		stack: 'a',
+		radius: ['20%','90%'],
+		data: fillData,
+		emphasis:{
+					itemStyle:{
+							color:'#f3f5f6'
+					}
+			},
+		itemStyle:{
+			normal:{
+				color: function(params) { 
+					return params.dataIndex>2?'#f3f5f6':'#ffffff';
+				},
+			}
+			
+		}
+	}
+	// alert(JSON.stringify(seriesData))
+	if(option.series.length < 2){
+		option.series.push(seriesData)
+	}
+	
 
 	option.polar = {
 		show:true,
@@ -65,11 +119,11 @@ function setSeriesData(data){
 					max = Number(data[i].total)
 				})(i);//调用时参数  
 			} 
-			// return max * 4 / 3;
-			return value.max * 4 / 3;
+			return max * 4 / 3;
+			// return value.max * 4 / 3;
 		},
 		axisLine:{
-			symbolSize: [12,20]
+			symbolSize: [2,20]
 		},
 	}
 	
@@ -93,14 +147,14 @@ function setSeriesData(data){
 			show: false,
 			alignWithLabel: true
 		},
-
+		
 		// 中线
 		splitLine: {
-			show: true,
+			show: false,
 			lineStyle: {
 				color: ['#ffffff','#ffffff','#ffffff','#f3f5f6','#f3f5f6','#f3f5f6','#f3f5f6','#f3f5f6','#f3f5f6','#f3f5f6','#f3f5f6','#f3f5f6'],
-				width: '1'
-			}
+				width: '6',
+			},
 		},
 		data: data.map(function(item){
 			var itemVal = '';
@@ -114,7 +168,7 @@ function setSeriesData(data){
 			return itemVal;
 		}),
 	},
-
+	// alert('最后数据'+JSON.stringify(option.series))
 	divChart.setOption(option);
 }
 
@@ -152,8 +206,6 @@ var option = {
 	},
 	legendHoverLink: false,
 	hoverAnimation: false,
-	itemStyle: {
-	},
 	series: [],
 	grid: {
 		left: 10,

@@ -10,16 +10,16 @@ function documentReadFun(){
 	// 设置模块颜色 end
 
 	// 设置模块显示数据 start
-	var pieData = [
-		{value:65, name:'直接访问'},
-		{value:1868, name:'邮件营销'},
-		{value:340, name:'联盟广告'},
-		{value:5377, name:'视频广告'},
-		{value:348, name:'抖音广告'},
-	]
-	setSeriesData(pieData);
+	// var pieData = [
+	// 	{value:65, name:'直接访问'},
+	// 	{value:1868, name:'邮件营销'},
+	// 	{value:340, name:'联盟广告'},
+	// 	{value:5377, name:'视频广告'},
+	// 	{value:348, name:'抖音广告'},
+	// ]
+	// setSeriesData(pieData);
 	// 设置模块显示数据 end
-	updateTitle("这是新标题", "");
+	// updateTitle("这是新标题", "");
 }
 /**
  * 设置数据集，例：setSeriesData([{value:335, name:'直接访问'},{value:310, name:'邮件营销'}]);
@@ -27,6 +27,7 @@ function documentReadFun(){
 function setSeriesData(data){
 	// alert(JSON.stringify(data))
 	option.series[0].data = data;
+	option.series[0].clickable = false;
 	option.series[0].label = {
 		normal: {
 			formatter: '{b} \n {d}% {c}',

@@ -1,26 +1,17 @@
 
 
 
-// window.onresize = function(){
-
-// }
 function documentReadFun(){
-  // var colorData = ["red","green","#000000","#8876f6","#fea13e"];
-  // var colorData = ["#70BAFF","#8876f6","#ff8a34","#ffa128","#ffc703","#0084ff","#70baff" ]; //渐变颜色
-	// setColors(colorData);
+
+	/*	 
+	 *	设置颜色方法
+	 *	setColors(["red","green","#000000","#8876f6","#fea13e"]);
+	*/
 	legendClick();	// 添加legend 点击事件
 	hideMarkLine(); // 平均值显示、隐藏  默认隐藏
 	//---以上是默认值---
 	// setTooltip('axis', 2, function(a,b,c){var d="";if(a.length){for(var i=0;i<a.length;i++){if(d!=""){d+="<br/>"}d+=(a[i].value/100).toFixed(2)+"%"}}return d});
-	// setY2Axis(
-	// 	{
-	// 		type: 'value',
-	// 		position: 'right',
-	// 		splitLine: {show: false},
-	// 		axisTick: {show: false},
-	// 		axisLine: {show: false},
-	// 	}
-	// );
+	// setY2Axis({ type: 'value', position: 'right', splitLine: {show: false}, axisTick: {show: false}, axisLine: {show: false}, } );
 
   // 动态修改数据 data 是对象 data柱状显示数据 label=数值是否显示，不传：不显示，top：顶部显示，
 
@@ -62,40 +53,11 @@ function documentReadFun(){
 	// setSeriesData(data,1);
 	// 设置X轴显示数据
 	// setXAxis(['应收业绩','实收业绩','实收'], 3, 5,true,'%');
-	
+
 
 }
 
-/**
- * 设置窗口%多少开始可以拖动
- * param:size (返回数据数组的size)
- * param:defaultSize 
- */
-function setDataRoomStart(size, defaultSize,displayMode){
-	var end = 0;
-	// 如果当前返回Data的size小于等于开始滚动的size那么就开始
-	if (size <= defaultSize || 0 == defaultSize) {
-		end = 100;
-	} else {
-		end = (defaultSize / size) * 100;
-	}
-	option.dataZoom = [{
-		type : 'inside',
-		start: 0,
-		end : end
-	},]
-	if(displayMode == true){
-		option.dataZoom = [ {
-			type : 'inside',
-			show: false,
-			start: 0,
-			end: 100,
-			yAxisIndex: 0,
-			filterMode: 'empty',
-			// startValue: (size > 100 ?  parseInt((40/44)*size) : parseInt((40/117)*size)),
-		}]; 
-	}
-}
+
 
 /**
  * 设置x轴名字，例：setXAxis(['1月','2月','3月','4月','5月'],5);
@@ -105,33 +67,19 @@ function setDataRoomStart(size, defaultSize,displayMode){
  * unit：设置y轴显示数据单位
  */
 function setXAxis(data, hideSplitLine, defaultSize,displayMode,unit){
-	// 默认数据展示
-	if(data.length == 0){	
-		option.yAxis[0].splitNumber = 5;
-		option.yAxis[0].minInterval = 20;
-		option.yAxis[0].min = 0;
-		option.yAxis[0].interval = 1;
-		option.yAxis[0].max = ifErpBox()?3:5;
-	}
-	// 文本超出4个字 省略2019-04-08
-	// for(var i = 0; i < data.length; i++){
-	// 	data[i] = data[i].length>4?data[i].trim().substr(0,4):data[i];
-	// }
 	option.xAxis[0].data = data;
 	option.xAxis[0].axisLine.lineStyle.width = 0;
 	option.yAxis[0].axisLine.lineStyle.width = 0;
 
-	option.grid.top = '50';
-	option.grid.right = '10';
-	option.grid.left = 50
-	// if(option.title.text == '工作量排行'){
-	// 	option.grid.left = option.title.text.indexOf('工作量')>=0?20:10
-	// }
+	option.grid.top = '50' * (scaleType || 1);
+	option.grid.right = '1' * (scaleType || 1);
+	option.grid.left = '57'
 	
-	option.grid.bottom = ifErpBox()?'50':'55';
+	option.grid.bottom = ifErpBox()?'50':'60';
+
 	if(option.title.text){
-		option.grid.top = '60';
-		option.grid.right = '10';
+		option.grid.top = '60' * (scaleType || 1);
+		option.grid.right = '10' * (scaleType || 1);
 	}
 	// 2019-03-08 添加是否横向显示图表
 	if(displayMode != undefined && displayMode){
@@ -144,45 +92,19 @@ function setXAxis(data, hideSplitLine, defaultSize,displayMode,unit){
 		option.yAxis[0].inverse = true;
 		option.xAxis[0].splitLine.show = true;
 		option.yAxis[0].splitLine.show = false;
-		option.grid.top = '40';
-		option.grid.right = '25';
-		// option.yAxis[0].axisLabel = {
-		// 	formatter: function(value,index){
-		// 		return '{value|' + value + '}';
-		// 	},
-		// 	width: 50,
-		// 	backgroundColor: 'red',
-		// 	rich: {
-		// 		value: {
-		// 			lineHeight: 30,
-		// 			align: 'right',
-		// 		},
-		// 	}
-		// }
-		// option.grid.left = '20'
-		// option.grid.left = document.body.clientWidth>500?'-30':'-15';
-		
-		// if(option.title.text == '业绩来源分布'){
-		// 	option.grid.left = option.title.text.indexOf('业绩来源')>=0?'-30':'-15'
-		// }
-		// if(option.title.text == '成交边数分析'){
-		// 	option.grid.left = option.title.text.indexOf('成交边数')>=0?'-30':'-15'
-		// }
-		
-		// 没有标题
-		// if(data.length < 1){
-		// 	option.grid.left = '20';
-		// }
+		option.grid.top = '40' * (scaleType || 1);
+		option.grid.right = '35' * (scaleType || 1);
 		option.grid.bottom = ifErpBox()?'35':'50';
+		
 		if(option.title.text){
-			option.grid.top = '75';
-			option.grid.right = '25';
+			option.grid.top = '75' * (scaleType || 1);
+			option.grid.right = '35' * (scaleType || 1);
 		}
 	}
 	if(defaultSize > 0) {
 		setDataRoomStart(data.length, defaultSize,displayMode);
 	}
-
+	option.grid.bottom = option.grid.bottom * (scaleType || 1);
 	if(hideSplitLine == 1) {
 		option.yAxis[0].splitLine = {};
 		option.yAxis[0].splitLine.show = false;
@@ -191,45 +113,37 @@ function setXAxis(data, hideSplitLine, defaultSize,displayMode,unit){
 	}
 	addUnti(unit)
 }
-/**
- * 设置右边轴的显示
- */
-function setY2Axis(data){
-	option.yAxis[1] = data;
-}
 
 /**
- * 隐藏平均值横线，例：hideMarkLine();
- */
-function hideMarkLine(){
-	for(var i=0;i<option.series.length;i++){
-		option.series[i].markLine = undefined;
-	}
-	markLineNormol = undefined;
-	divChart.setOption(option, true);
-}
-
-/**
- * 显示平均值横线，例：showMarkLine();
- */
-function showMarkLine(){
-	markLineNormol = {
-		data : [{type : 'average', name: '平均值'}]
-	};
-	for(var i=0;i<option.series.length;i++){
-		option.series[i].markLine = markLineNormol;
-	}
-	divChart.setOption(option, true);
-}
-/**
- * 设置数据集，例：setSeriesData([{data:[2.0, 4.9, 7.0, 23.2, 25.6], name:'蒸发量'},{data:[2.6, 5.9, 9.0, 26.4, 28.7], name:'降水量'}]);
+ * 设置数据集，例：setSeriesData([
+	 {data:[2.0, 4.9, 7.0, 23.2, 25.6], name:'蒸发量'},
+	 {data:[2.6, 5.9, 9.0, 26.4, 28.7], name:'降水量'}]);
  * 
  */
 var maxWidthSeries = -1;// 这个参数C++直接赋值 设置柱子宽度
 function setSeriesData(data,showLegend){
-
 	if(showLegend == undefined) {
 		showLegend = false;
+	}
+	// 默认数据展示
+	if(option.xAxis[0].data.length == 0 && option.xAxis[0].type == 'category'){
+		option.yAxis[0].min = 0;
+		option.yAxis[0].max = ifErpBox()?3:5;
+		option.grid.top = '50' * (scaleType || 1);
+		option.grid.bottom = "50";
+		option.grid.right = '10' * (scaleType || 1);
+		option.grid.left = '57';
+	}
+	
+	if(option.xAxis[0].data.length == 0 && option.xAxis[0].type == 'value'){
+		option.xAxis[0].min = 0;
+		option.xAxis[0].max = ifErpBox()?6:7;
+		option.grid.bottom = "50" * (scaleType || 1);
+		option.grid.right = '10' * (scaleType || 1);
+		option.grid.left = '57';
+	}
+	if(option.yAxis[1]){
+		option.grid.right = '30' * (scaleType || 1);
 	}
  
 	var legends = [];
@@ -260,7 +174,7 @@ function setSeriesData(data,showLegend){
 						return str
 					},
           textStyle: {
-            fontSize: 12,
+            fontSize: 12 * (scaleType || 1),
 						color: data[i].color?data[i].color:'#6a7c8f',
 						
           }
@@ -302,7 +216,7 @@ function setSeriesData(data,showLegend){
 		// 有主标题 2019-03-13
 		if(option.title.text){
 		
-			option.title.top = '10';
+			option.title.top = '10' * (scaleType || 1);
 			option.title.left = '15';
 			option.title.textStyle = {
 				fontSize: 14 * (scaleType || 1),
@@ -310,25 +224,127 @@ function setSeriesData(data,showLegend){
 				color: '#4a627a'
 			}
 		}
-		if(legends.length >=5){
-			option.grid.bottom = document.body.clientWidth < 350?'70':'60';
-		}
-		if(legends.length >=11){
-			option.grid.bottom = document.body.clientWidth < 350?'85':'60';
-		}
-
 	
+		if(legends.length >=5){
+			option.grid.bottom = document.body.clientWidth < (350 * (scaleType || 1))?'70':'65';
+		}
+		if(legends.length >= 8){
+			option.grid.bottom = document.body.clientWidth < (350 * (scaleType || 1))?'80':'75';
+		}
+		if(legends.length >=10){
+			option.grid.bottom = document.body.clientWidth < (350 * (scaleType || 1))?'100':'90';
+		}
 	} else {
 		option.legend.data = null;
 	}
+	// 判断文本显示几行 start
+	if(option.xAxis[0].data != undefined && option.xAxis[0].data.length > 0){
+		var maxText = 0;
+		for(var num = 0; num < option.xAxis[0].data.length; num++){
+			if(maxText < option.xAxis[0].data[num].length){
+				maxText = option.xAxis[0].data[num].length;
+			}
+		}
+		if(maxText > 4){
+			option.grid.bottom = Number(option.grid.bottom) + 15
+		}
+	}
+	// 判断文本显示几行 end
 	option.legend.selected = selectedObj;
 	divChart.setOption(option, true); 
 	chamfer()
 }
-// x或者y轴设置单位
+
+/*  设置窗口拖动 %多少开始可以拖动 
+ *	param:size (返回数据数组的size)
+ *	param:defaultSize 
+*/		
+function setDataRoomStart(size, defaultSize,displayMode){
+	var end = 0;
+	// 如果当前返回Data的size小于等于开始滚动的size那么就开始
+	if (size <= defaultSize || 0 == defaultSize) {
+		end = 100;
+	} else {
+		end = (defaultSize / size) * 100;
+	}
+	option.dataZoom = [{
+		type : 'inside',
+		start: 0,
+		end : end,
+	},]
+	if(displayMode == true){
+		option.dataZoom = [ {
+			type : 'inside',
+			show: false,
+			start: 0,
+			end: end,
+			yAxisIndex: 0,
+			filterMode: 'empty',
+		}]; 
+	}
+}
+
+// 设置y轴 右边数据
+function setY2Axis(data){
+	option.yAxis[1] = data;
+}
+
+// 显示平均值横线，例：showMarkLine();
+var markLineNormol = { data : [{type : 'average', name: '平均值'}] };
+function showMarkLine(){
+	markLineNormol = {
+		data : [{type : 'average', name: '平均值'}]
+	};
+	for(var i=0;i<option.series.length;i++){
+		option.series[i].markLine = markLineNormol;
+	}
+	divChart.setOption(option, true);
+}
+
+// 隐藏平均值横线，例：hideMarkLine();
+function hideMarkLine(){
+	for(var i=0;i<option.series.length;i++){
+		option.series[i].markLine = undefined;
+	}
+	markLineNormol = undefined;
+	divChart.setOption(option, true);
+}
+
+// x轴、y轴 显示文字换行
+function textLineFeed(value){
+	var letterCount = 8;	// 总共显示多少字
+	var ret = "";//拼接加\n返回的类目项
+	var maxLength = 4;//每项显示文字个数
+	var regNumber = /\d+/;
+	if(value.indexOf('-')>=0 && regNumber.test(value)){
+		return value
+	}
+	if(value.indexOf('.')>=0 && regNumber.test(value)){
+		return value
+	}
+	value = value.replace(/[\r\n]/g,"").trim().substr(0,letterCount)
+	var valLength = value.length;//X轴类目项的文字个数
+	var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+	if (rowN > 1) { //如果类目项的文字大于3,
+		for (var i = 0; i < rowN; i++) {
+			var temp = "";//每次截取的字符串
+			var start = i * maxLength;//开始截取的位置
+			var end = start + maxLength;//结束截取的位置
+			//这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+			temp = value.substring(start, end) + "\n";
+			ret += temp; //凭借最终的字符串
+		}
+		return ret;
+	}else {
+		return value;
+	}
+}
+
+// x轴、y轴 数据单位设置
 function addUnti(unit){
 	option.title.unit = unit?unit:'';
 	unit = unit ? unit : ''
+
 	// 纵向显示
 	if(option.xAxis[0].data != undefined && option.xAxis[0].data.length > 0){
 			option.yAxis[0].axisLabel = {
@@ -336,16 +352,12 @@ function addUnti(unit){
 					return value+ unit
 				},
 			}
-
 			option.xAxis[0].axisLabel = {
 				formatter: function(value,index){
-					return '{c|' + value.replace(/[\r\n]/g,"").trim().substr(0,4) + '}'
+					return textLineFeed(value,index)
 				},
-				rich: {
-					c: {
-						align: 'right',
-					},
-				}
+				width: 50,
+				lineHeight: 16,
 			}
 		
 	}
@@ -353,23 +365,20 @@ function addUnti(unit){
 	if(option.yAxis[0].data != undefined && option.yAxis[0].data.length > 0){
 		option.xAxis[0].axisLabel = {
 			formatter: function(value,index){
-				return value+ unit
+				return value + unit
 			},
 		}
+		
 		option.yAxis[0].axisLabel = {
 			formatter: function(value,index){
-				return '{c|' + value.replace(/[\r\n]/g,"").trim().substr(0,4) + '}';
+				return textLineFeed(value,index)
 			},
-			width: 60,
-			rich: {
-				c: {
-					lineHeight: 30,
-					align: 'right',
-				},
-			}
+			width: 50,
+			lineHeight: 16,
 		}
 	}
 }
+
 // 倒角
 function chamfer(){
 	var chamfers = [0,30,30,0];
@@ -428,7 +437,6 @@ function chamfer(){
 					max = val
 				}
 				val = 0;
-				
 			}
 		}
 		max = max*1.1
@@ -450,66 +458,7 @@ function chamfer(){
 	max = max*1.1
 	interval(max);
 }
-// 设置均等值
-function interval(val){
-	val  = parseInt(val);
-	if(val == 0){
-		val = 5;
-	}
-	var maxSharing = 0;		// 平均值
-	var valLeng = 5;
-	// sharing 等份显示 纵向5等份 横向8等份
-	var sharing = ifErpBox()?3:5; 
-	if(option.yAxis[0].data != undefined && option.yAxis[0].data.length > 0){
-		sharing = ifErpBox()?6:7;
-	}
-	if(option.title.unit == '%' && Math.ceil(val/1.1) <= 100){
 
-		if(val > 100){
-			val = 100;
-		}
-		if(val < 10){
-			val = 10;
-		}
-		sharing = 5
-		val = Math.ceil(val/10)*10
-	}
-	maxSharing = Math.ceil(val/sharing);
-	if(val > 10){
-		maxSharing = Math.ceil((val/sharing)/valLeng)*valLeng;
-	}
-	// 是否NaN
-	if(isNaN(maxSharing)){
-		maxSharing = 10;
-	}
-
-	// 纵向显示
-	if(option.xAxis[0].data != undefined && option.xAxis[0].data.length > 0){
-		option.yAxis[0].max = maxSharing*sharing;
-		option.yAxis[0].interval = maxSharing;
-	}
-
-	// 横向显示
-	if(option.yAxis[0].data != undefined && option.yAxis[0].data.length > 0){
-		option.xAxis[0].max = maxSharing*sharing;
-		option.xAxis[0].interval = maxSharing;
-	}
-
-	option.title.textStyle = {
-		fontSize: 14 * (scaleType || 1),
-		fontWeight: 'normal',
-		color: '#4a627a'
-	}
-	// var legendFontSize = ifErpBox()?10: 12;
-	var legendFontSize = 12;
-	option.legend.textStyle = {
-		fontSize: legendFontSize,
-		color: '#839fab',
-		fontFamily: 'Microsoft YaHei',
-	}
-	
-	divChart.setOption(option, true); 
-}
 // 单柱体倒角
 function singleColumn(max){
 	// 单个柱状
@@ -536,6 +485,83 @@ function singleColumn(max){
 		}
 	}
 }
+
+// 设置均等值
+function interval(val){
+	val  = parseInt(val);
+	
+	if(val == 0){
+		val = 0;
+	}
+
+	var maxSharing = 0;		// 平均值
+	var valLeng = 5;
+	// sharing 等份显示 纵向5等份 横向8等份
+	var sharing = ifErpBox()?3:5;  //横向
+	if(option.yAxis[0].data != undefined && option.yAxis[0].data.length > 0){
+		sharing = ifErpBox()?6:7;
+	}
+	if(option.title.unit == '%' && Math.ceil(val/1.1) <= 100){
+		if(val > 100){
+			val = 100;
+		}
+		if(val < 10){
+			val = 10;
+		}
+		sharing = ifErpBox()?3:5
+		val = Math.ceil(val/10)*10
+	}
+	maxSharing = Math.ceil(val/sharing);
+	if(val > 10){
+		maxSharing = Math.ceil((val/sharing)/valLeng)*valLeng;
+	}
+	
+	// 是否NaN
+	if(isNaN(maxSharing)){
+		maxSharing = 10;
+	}
+	if(maxSharing == 0){
+		maxSharing = 1;
+	}
+	// 纵向显示
+	if(option.xAxis[0].data != undefined && option.xAxis[0].data.length > 0){
+		option.yAxis[0].max = maxSharing*sharing;
+		option.yAxis[0].interval = maxSharing;
+
+		if(option.yAxis[0].max == 0){
+			option.yAxis[0].min = 0;
+			option.yAxis[0].max = 1*sharing;
+		}
+	}
+
+	// 横向显示
+	if(option.yAxis[0].data != undefined && option.yAxis[0].data.length > 0){
+		option.xAxis[0].max = maxSharing*sharing;
+		option.xAxis[0].interval = maxSharing;
+		if(val > 5000){
+			option.xAxis[0].axisLabel.interval = 1
+		}
+		if(option.xAxis[0].max == 0){
+			option.xAxis[0].min = 0;
+			option.xAxis[0].max = 1*sharing;
+		}
+	}
+
+	option.title.textStyle = {
+		fontSize: 14 * (scaleType || 1),
+		fontWeight: 'normal',
+		color: '#4a627a'
+	}
+
+	option.legend.textStyle = {
+		fontSize: 12 * (scaleType || 1),
+		color: '#839fab',
+		fontFamily: 'Microsoft YaHei',
+	}
+
+	divChart.setOption(option, true); 
+}
+
 // 判断是否最小窗口
 function ifErpBox(){
 	var erpMinbox = 340;	// erp切换小窗口模式
@@ -544,9 +570,8 @@ function ifErpBox(){
 	}
 	return false;
 }
-var markLineNormol = {
-	data : [{type : 'average', name: '平均值'}]
-};
+
+
 
 var option = {
 	title : {
@@ -558,8 +583,6 @@ var option = {
     subtext: '',
 	},
 	legend:{
-		// type: 'scroll',
-		// orient: 'horizontal',
 		pagemode: true,
 		width: '95%',
 		left : 'center',// 中间
@@ -578,7 +601,7 @@ var option = {
 		top: '10',
 		right: '10',
 		bottom: '10',
-		containLabel:false
+		containLabel: false
 	},
 	tooltip : {
 		trigger: 'item'
@@ -587,8 +610,6 @@ var option = {
 	xAxis : [
 		{
 			type : 'category',
-			boundaryGap : true,
-			axisLine: {onZero: false},
 			splitLine: {
 				show: false,
 				lineStyle: {
